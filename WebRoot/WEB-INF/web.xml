@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:j2ee="http://java.sun.com/xml/ns/j2ee">
+	<display-name>fan_group_test</display-name>
+
+	<!-- 配置webAppRootKey -->
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>fan_group_test.root</param-value>
+	</context-param>
+
+	<!-- 配置首页面 -->
+	<welcome-file-list>
+		<welcome-file>/index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- 配置DispatchServlet spring mvc -->
+	<servlet>
+		<servlet-name>fan_group_test</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:/spring/spring-mvc*.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>fan_group_test</servlet-name>
+		<url-pattern>*.action</url-pattern>
+	</servlet-mapping>
+
+	<!-- 引入spring配置文件 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath*:/spring/spring-base.xml;
+			classpath*:/spring/spring-mvc.xml;
+		</param-value>
+	</context-param>
+	<!-- 上下文Spring监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<!-- 配置字符集过滤器 -->
+	<filter>
+		<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<!-- 配置log4j日志 -->
+	<context-param>
+		<!-- log4j配置文件位置 -->
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:/log4j/log4j.properties</param-value>
+	</context-param>
+	<context-param>
+		<!-- 日志刷新时间间隔 -->
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>6000</param-value>
+	</context-param>
+	<!-- 配置log4j监听 -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener
+		</listener-class>
+	</listener>
+
+    <!-- request监听，使其request能注入IOC -->
+	<listener>
+		<listener-class>    
+			org.springframework.web.context.request.RequestContextListener    
+		</listener-class>    
+	</listener>  
+
+	<!--session失效时间：30分钟 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
+</web-app>
